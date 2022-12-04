@@ -1,8 +1,10 @@
 """main.py
 Python FastAPI Auth0 integration example
 """
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Response, status  # 👈 new imports
 from fastapi.security import HTTPBearer
+
+from .utils import VerifyToken
 
 # Scheme for the Authorization header
 token_auth_scheme = HTTPBearer()
@@ -23,9 +25,13 @@ def public():
 
 
 @app.get("/api/private")
-def private(token: str = Depends(token_auth_scheme)):
+def private(response: Response, token: str = Depends(token_auth_scheme)):  # 👈 updated code
     """A valid access token is required to access this route"""
 
-    result = token.credentials
+    result = VerifyToken(token.credentials).verify()  # 👈 updated code
+
+    if result.get("status"):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return result
 
     return result
