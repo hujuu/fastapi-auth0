@@ -24,6 +24,7 @@ def set_up():
         }
     return config
 
+
 class VerifyToken():
     """Does all the token verification using PyJWT"""
 
