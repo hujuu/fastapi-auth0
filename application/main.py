@@ -1,9 +1,9 @@
 """main.py
 Python FastAPI Auth0 integration example
 """
-from fastapi import Depends, FastAPI, Response, status  # 👈 new imports
+from fastapi import Depends, FastAPI, Response, status
 from fastapi.security import HTTPBearer
-
+import requests
 from .utils import VerifyToken
 
 # Scheme for the Authorization header
@@ -35,3 +35,22 @@ def private(response: Response, token: str = Depends(token_auth_scheme)):
         return result
 
     return result
+
+
+@app.get("/api/private/profile")
+def private_profile(response: Response, token: str = Depends(token_auth_scheme)):
+    """A valid access token is required to access this route
+    """
+    result = VerifyToken(token.credentials).verify()
+    if result.get("status"):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return result
+
+    headers = {'authorization': f"Bearer {token.credentials}"}
+    url_items = "https:// your.domain.auth0.com/userinfo"
+    profile = requests.get(
+        url_items,
+        headers=headers,
+    )
+
+    return profile.json()
