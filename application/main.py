@@ -25,10 +25,10 @@ def public():
 
 
 @app.get("/api/private")
-def private(response: Response, token: str = Depends(token_auth_scheme)):  # 👈 updated code
+def private(response: Response, token: str = Depends(token_auth_scheme)):
     """A valid access token is required to access this route"""
 
-    result = VerifyToken(token.credentials).verify()  # 👈 updated code
+    result = VerifyToken(token.credentials).verify()
 
     if result.get("status"):
         response.status_code = status.HTTP_400_BAD_REQUEST
