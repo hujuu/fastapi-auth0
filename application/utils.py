@@ -39,7 +39,7 @@ class VerifyToken():
         self.jwks_client = jwt.PyJWKClient(jwks_url)
 
     def verify(self):
-        # This gets the 'kid' from the passed token
+        """This gets the 'kid' from the passed token"""
         try:
             self.signing_key = self.jwks_client.get_signing_key_from_jwt(
                 self.token
