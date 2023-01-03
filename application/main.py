@@ -51,6 +51,7 @@ def private_profile(response: Response, token: str = Depends(token_auth_scheme))
     profile = requests.get(
         url_items,
         headers=headers,
+        timeout=(2.0, 3.5)
     )
 
     return profile.json()
