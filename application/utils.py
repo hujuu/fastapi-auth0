@@ -1,9 +1,10 @@
 """utils.py
+Application setup and VerifyToken
 """
 
 import os
-import jwt
 from configparser import ConfigParser
+import jwt
 
 
 def set_up():
