@@ -4,7 +4,7 @@ Python FastAPI Auth0 integration example
 from fastapi import Depends, FastAPI, Response, status
 from fastapi.security import HTTPBearer
 import requests
-from .utils import VerifyToken
+from .utils import VerifyToken # pylint: disable=E0402
 
 # Scheme for the Authorization header
 token_auth_scheme = HTTPBearer()
